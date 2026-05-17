@@ -7,7 +7,7 @@ class HabitTracker {
         this.mainChart = null;
         this.xpChart = null;
         this.colors = ['#007BFF', '#28A745', '#FFC107', '#FD7E14', '#6F42C1', '#17A2B8', '#6C757D'];
-        this.selectedColor = null;
+        this.selectedColor = null; 
         this.init();
     }
 
@@ -18,16 +18,18 @@ class HabitTracker {
         document.getElementById('save-profile').onclick = () => this.saveProfileData();
         document.getElementById('edit-profile-btn').onclick = () => this.toggleProfileMode(true);
         
+        // Кнопка CTA
         const ctaBtn = document.getElementById('cta-start-btn');
         if (ctaBtn) ctaBtn.onclick = () => this.navigateToTab('list');
 
+        // Инициализация табов
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this.switchTab(e));
         });
 
         this.applyTheme();
         this.updateProfileUI();
-        this.updateHeaderTitle('home');
+        this.updateHeaderTitle('home'); 
         this.render();
         this.fetchQuote();
     }
@@ -93,12 +95,16 @@ class HabitTracker {
 
         if (!fName || !nameRegex.test(fName)) return alert('Введите имя без цифр!');
         if (!lName || !nameRegex.test(lName)) return alert('Введите фамилию без цифр!');
-        if (ageRaw === "" || isNaN(ageVal) || ageVal <= 0) return alert('Введите корректный возраст!');
+        
+        // ИСПРАВЛЕНО: Теперь возраст не обязателен. Проверка идет только если поле не пустое.
+        if (ageRaw !== "") {
+            if (isNaN(ageVal) || ageVal <= 0) return alert('Введите корректный возраст!');
+        }
 
         this.profile = {
-            firstName: fName, lastName: lName, age: ageVal,
+            firstName: fName, lastName: lName, age: ageRaw !== "" ? ageVal : '',
             gender: document.getElementById('profile-gender').value,
-            goal: document.getElementById('profile-goal').value,
+            // Цель убрана из формы в HTML, но оставлена в объекте, чтобы не ломать логику.
             isFormHidden: true
         };
         localStorage.setItem('habitize_prof_v1', JSON.stringify(this.profile));
@@ -109,13 +115,27 @@ class HabitTracker {
 
     updateProfileUI() {
         const p = this.profile;
-        document.getElementById('profile-first-name').value = p.firstName;
-        document.getElementById('profile-last-name').value = p.lastName;
-        document.getElementById('profile-age').value = p.age;
-        document.getElementById('profile-gender').value = p.gender;
+        // Проверка на существование элементов перед заполнением (защита от ошибок DOM)
+        const fnInput = document.getElementById('profile-first-name');
+        if (fnInput) fnInput.value = p.firstName;
+        
+        const lnInput = document.getElementById('profile-last-name');
+        if (lnInput) lnInput.value = p.lastName;
+        
+        const ageInput = document.getElementById('profile-age');
+        if (ageInput) ageInput.value = p.age;
+        
+        const genSelect = document.getElementById('profile-gender');
+        if (genSelect) genSelect.value = p.gender;
 
-        document.getElementById('view-name').innerText = `${p.firstName} ${p.lastName}`;
-        document.getElementById('view-age-gender').innerText = `${p.age ? p.age + ' лет,' : ''} ${p.gender}`;
+        const vName = document.getElementById('view-name');
+        if (vName) vName.innerText = `${p.firstName} ${p.lastName}`;
+        
+        const vAgeGen = document.getElementById('view-age-gender');
+        if (vAgeGen) vAgeGen.innerText = `${p.age ? p.age + ' лет,' : ''} ${p.gender}`;
+        
+        // vGoal не обновляем, так как убрали поле.
+        
         this.toggleProfileMode(!p.isFormHidden);
         const totalXP = this.habits.reduce((sum, h) => sum + h.getPoints(), 0);
         document.getElementById('total-stats').innerHTML = `💎 Прогресс в Habitize: <b>${totalXP} XP</b>`;
