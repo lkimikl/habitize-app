@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habitize — Твой путь к успеху</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💎</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1 id="dynamic-header">Habitize</h1>
+            <button id="theme-toggle">🌓</button>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-target="home">Главная</button>
+            <button class="tab-btn" data-target="list">Трекер</button>
+            <button class="tab-btn" data-target="stats">Статистика</button>
+            <button class="tab-btn" data-target="profile">Профиль</button>
+        </nav>
+
+        <div id="tab-home" class="tab-content active">
+            <div class="habit-card dash-card animate-hover">
+                <h2 style="margin-top:0">Habitize</h2>
+                <p>Твой персональный ассистент для создания долгосрочных изменений. Мы помогаем превращать рутину в систему, отслеживать прогресс через визуальные графики и превращать саморазвитие в увлекательную игру с рангами и опытом.</p>
+            </div>
+
+            <div class="habit-card guide-container animate-hover">
+                <h3 class="guide-title">Как это работает за 1 минуту</h3>
+                <div class="guide-step">
+                    <div class="guide-icon">✅</div>
+                    <div class="guide-text"><strong>Добавь привычку</strong> — выбери то, что хочешь внедрить.</div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-icon">📅</div>
+                    <div class="guide-text"><strong>Отмечай каждый день</strong> — нажми на трекер, чтобы подтвердить успех.</div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-icon">📈</div>
+                    <div class="guide-text"><strong>Смотри прогресс</strong> — наблюдай, как твои показатели растут.</div>
+                </div>
+                <div class="guide-tip">
+                    💡 <strong>Совет:</strong> Начни с 1–2 привычек — не перегружай себя в первые дни.
+                </div>
+            </div>
+
+            <div class="habit-card dash-card animate-hover cta-card">
+                <h3>Готов изменить свою жизнь?</h3>
+                <p>Лучшее время, чтобы начать новую привычку — прямо сейчас.</p>
+                <button class="btn-cta" id="cta-start-btn">Приступить прямо сейчас</button>
+            </div>
+        </div>
+
+        <div id="tab-list" class="tab-content">
+            <div class="habit-form-container">
+                <div class="habit-form">
+                    <input type="text" id="habit-input" placeholder="Название новой привычки...">
+                    <button id="add-habit">+</button>
+                </div>
+                <div class="color-picker" id="color-options"></div>
+            </div>
+            <div class="quote-container">
+                <span class="quote-text">Загрузка...</span><br>
+                <small class="quote-author"></small>
+            </div>
+            <div id="habit-list" class="habit-grid-container"></div>
+        </div>
+
+        <div id="tab-stats" class="tab-content">
+            <div class="habit-card no-anim">
+                <h3>Успехи по привычкам</h3>
+                <canvas id="statsChart"></canvas>
+            </div>
+            <div class="habit-card no-anim">
+                <h3>Динамика опыта (XP)</h3>
+                <canvas id="xpHistoryChart"></canvas>
+            </div>
+        </div>
+
+        <div id="tab-profile" class="tab-content">
+            <div id="profile-view" class="habit-card profile-info-card animate-hover">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start">
+                    <div>
+                        <h2 id="view-name" style="margin:0">Загрузка...</h2>
+                        <p id="view-age-gender" style="opacity:0.7"></p>
+                        <p id="view-goal" style="font-style:italic"></p>
+                    </div>
+                    <button class="btn-icon" id="edit-profile-btn" style="font-size:1.5rem">✎</button>
+                </div>
+            </div>
+
+            <div id="profile-edit" class="habit-card animate-hover" style="display:none;">
+                <h3 style="margin-bottom: 25px;">Настройки профиля Habitize</h3>
+                <div class="profile-grid">
+                    <div class="profile-field"><label>Имя *</label><input type="text" id="profile-first-name"></div>
+                    <div class="profile-field"><label>Фамилия *</label><input type="text" id="profile-last-name"></div>
+                    <div class="profile-field"><label>Возраст *</label><input type="text" id="profile-age"></div>
+                    <div class="profile-field">
+                        <label>Пол</label>
+                        <select id="profile-gender">
+                            <option>Не указан</option>
+                            <option>Мужской</option>
+                            <option>Женский</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn--save" id="save-profile">Сохранить</button>
+            </div>
+            <div class="habit-card xp-card animate-hover"><p id="total-stats"></p></div>
+        </div>
+
+        <footer class="app-footer">
+            <p>Created by <a href="https://github.com/lkimikl" target="_blank">lkimikl</a> &copy; 2026 Habitize</p>
+        </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
