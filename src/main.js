@@ -7,7 +7,7 @@ class HabitTracker {
         this.mainChart = null;
         this.xpChart = null;
         this.colors = ['#007BFF', '#28A745', '#FFC107', '#FD7E14', '#6F42C1', '#17A2B8', '#6C757D'];
-        this.selectedColor = null; 
+        this.selectedColor = null;
         this.init();
     }
 
@@ -18,18 +18,16 @@ class HabitTracker {
         document.getElementById('save-profile').onclick = () => this.saveProfileData();
         document.getElementById('edit-profile-btn').onclick = () => this.toggleProfileMode(true);
         
-        // Кнопка CTA
         const ctaBtn = document.getElementById('cta-start-btn');
         if (ctaBtn) ctaBtn.onclick = () => this.navigateToTab('list');
 
-        // Инициализация табов
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this.switchTab(e));
         });
 
         this.applyTheme();
         this.updateProfileUI();
-        this.updateHeaderTitle('home'); 
+        this.updateHeaderTitle('home');
         this.render();
         this.fetchQuote();
     }
@@ -42,16 +40,13 @@ class HabitTracker {
     switchTab(e) {
         const target = e.currentTarget.dataset.target;
         
-        // Убираем активные классы со всех кнопок и контента
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
-        // Добавляем активный класс на текущую кнопку и нужную вкладку
         e.currentTarget.classList.add('active');
         const targetElement = document.getElementById(`tab-${target}`);
         if (targetElement) targetElement.classList.add('active');
 
-        // Обновляем заголовок и графики
         this.updateHeaderTitle(target);
         if (target === 'stats') this.renderCharts();
     }

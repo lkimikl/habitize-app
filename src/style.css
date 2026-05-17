@@ -55,7 +55,6 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 20px 0; }
 .grid__dot { aspect-ratio: 1; background: var(--empty); border-radius: 6px; transition: background-color 0.3s; }
 
-/* ИСПРАВЛЕНО: Квадраты пропусков теперь всегда красные */
 .grid__dot--miss { background-color: var(--miss) !important; }
 
 .actions { display: flex; gap: 12px; }
